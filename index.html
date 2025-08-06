@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Econ Midterm Drill</title>
+<style>
+/* ——— CSS: modern iOS‑style card UI ——— */
+:root{
+  --bg:#f2f2f7; --card:#ffffff; --primary:#007aff; --text:#1c1c1e;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);display:flex;align-items:center;justify-content:center}
+.hidden{display:none!important}
+#app{max-width:480px;width:90vw;padding:2rem}
+.card{background:var(--card);border-radius:24px;box-shadow:0 10px 20px rgba(0,0,0,.08);padding:2rem;animation:fade .4s}
+h1,h2{margin-top:0;font-weight:600}
+button{display:inline-block;margin-top:1.2rem;padding:.8rem 1.2rem;border:none;border-radius:12px;font-size:1rem;font-weight:600;background:var(--primary);color:#fff;cursor:pointer}
+button.flat{background:transparent;color:var(--primary)}
+label{display:block;margin:.6rem 0;cursor:pointer}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ——— Data ——— */
+const questions=[
+/* 1 */{type:'mcq',q:'Which of the following is most likely a topic of discussion in macroeconomics?',c:['An increase in the price of a hamburger','A decrease in the production of DVD players by a consumer electronics company','An increase in the wage rate paid to automobile workers','A decrease in the unemployment rate'],a:3,e:'Macroeconomics studies aggregates such as unemployment, inflation, and GDP, so the drop in the national jobless rate is the macro topic.'},
+/* 2 */{type:'mcq',q:'In a _______________________, most economic decisions about what to produce, how to produce it, and for whom to produce it are made by buyers and sellers.',c:['Market‑oriented economy','Macroeconomy','Microeconomy','Command economy'],a:0,e:'A market‑oriented (market) economy relies on dispersed buyers and sellers interacting through prices.'},
+/* 3 */{type:'mcq',q:'Gomer spends an hour playing basketball rather than studying. His opportunity cost is:',c:['Nothing, because he enjoys basketball more','The increase in skill from basketball','The benefit to his grades from studying an hour','Nothing, because entry to the gym was free'],a:2,e:'Opportunity cost is the highest‑valued alternative forgone—the lost study‑time grade benefit.'},
+/* 4 */{type:'mcq',q:'Which event would most likely shift the production possibilities curve inward?',c:['More factory hours','Workers choose more leisure, cutting hours worked','More capital goods produced','Technological progress'],a:1,e:'With fewer labour hours available, the economy’s maximum attainable output falls, moving the PPF inward.'},
+/* 5 */{type:'mcq',q:'Macroland is operating at Point A inside its PPF. The best explanation is that',c:['Resources are being used inefficiently','The economy is an efficient market','The economy has few resources','Technology is very poor'],a:0,e:'Points inside the frontier reflect idle or misallocated resources—inefficiency—not lack of resources.'},
+/* 6 */{type:'mcq',q:'If Microland is at Point B on its PPF curve, it could produce more consumer goods',c:['Only with technology improvements','Without sacrificing capital goods','By sacrificing some capital goods','Only with additional resources'],a:2,e:'Moving along a PPF always involves a trade‑off; to gain one good you must give up some of the other.'},
+/* 7 */{type:'mcq',q:'On the given PPF diagram, the point where only motorcycles are produced is',c:['A','B','C','E'],a:3,e:'Point E sits on the horizontal axis—motorcycles only, zero hybrid cars.'},
+/* 8 */{type:'mcq',q:'Given Molly (6 avatars, 3 tattoos) and Pete (8 avatars, 2 tattoos) per hour, who has comparative advantage?',c:['Pete in avatars, Molly in tattoos','Molly in both','Pete in both','Molly in avatars, Pete in tattoos'],a:0,e:'Pete’s opportunity cost for an avatar (¼ tattoo) is lower; Molly’s tattoo cost (½ avatar) is lower.'},
+/* 9 */{type:'mcq',q:'After reports on “mad‑cow” risk in Canadian beef, U.S. demand for that beef will likely',c:['Stay unchanged','Shift left','Slide down the curve','Shift right'],a:1,e:'Negative health news lowers consumers’ willingness to buy at any price—a leftward demand shift.'},
+/* 10 */{type:'mcq',q:'A severe freeze damaging Florida oranges causes in the orange‑juice market',c:['A supply curve left‑shift','A demand curve left‑shift','Both S and D shift left','Supply left and demand right'],a:0,e:'Crop loss cuts available oranges at every price—an inward (left) shift of supply.'},
+/* 11 */{type:'mcq',q:'Beer and pizza are complements. If pizza becomes cheaper, economists expect',c:['Higher demand for pizza','Lower demand for pizza','Lower quantity of pizza demanded','Higher demand for beer'],a:3,e:'Cheaper pizza raises pizza consumption, increasing demand for its complement—beer.'},
+/* 12 */{type:'mcq',q:'Using the cheeseburger table, market equilibrium occurs at a price of',c:['$5','$6','$7','$8'],a:2,e:'At $7 quantity demanded equals quantity supplied (900), so the market clears.'},
+/* 13 */{type:'mcq',q:'At $9 per cheeseburger there is',c:['Equilibrium','Excess demand of 300','Excess demand of 500','Excess supply of 1,000'],a:3,e:'Supply 1,300 – demand 300 = surplus (excess supply) of 1,000 burgers.'},
+/* 14 */{type:'mcq',q:'In the sunglasses graph, equilibrium is reached at',c:['$90; 300','$30; 600','$60; 450','$30; 300'],a:2,e:'Demand and supply intersect at $60 and 450 units.'},
+/* 15 */{type:'mcq',q:'If video‑game discs are normal goods and income rises, then',c:['P↑ Q↓','P↓ Q↓','P↑ Q↑','P↓ Q↑'],a:2,e:'Higher income shifts demand right; both price and quantity increase.'},
+/* 16 */{type:'mcq',q:'Cell phones & bluetooth headsets are complements. A cheaper headset will',c:['P↓ Q↑ for phones','P↑ Q↓ for phones','P↑ Q↑ for phones','P↓ Q↓ for phones'],a:2,e:'Demand for phones shifts right; both equilibrium price and quantity of phones rise.'},
+/* 17 */{type:'mcq',q:'Simultaneous increases in demand *and* supply definitely cause',c:['Higher equilibrium quantity','Higher equilibrium price','Lower equilibrium quantity','Lower equilibrium price'],a:0,e:'Both shifts push quantity the same direction (up); price effect is ambiguous.'},
+/* 18 */{type:'mcq',q:'At equilibrium in the price‑quantity graph, consumer surplus equals area',c:['A+B+C','G','A','E+F+G'],a:0,e:'Consumer surplus is the area below the demand curve and above price—triangles A,B,C.'},
+/* 19 */{type:'mcq',q:'If price is set at P₁ (below equilibrium), consumer surplus equals',c:['G','A+B+E','A','B+C+E+F+G'],a:1,e:'At the lower price, CS stretches to areas A, B and E.'},
+/* 20 */{type:'mcq',q:'A rightward shift of the market demand curve for labour results from',c:['Lower productivity','Lower product price','Higher wage rate','Higher demand for the firm’s product'],a:3,e:'Firms hire more workers when the value of their output rises.'},
+/* 21 */{type:'mcq',q:'Which does *not* shift the labour‑supply curve right?',c:['Lower non‑wage income','More working‑age population','Higher labour productivity','More immigration'],a:2,e:'Productivity affects demand for labour, not workers’ willingness to supply hours.'},
+/* 22 */{type:'mcq',q:'Many U.S. states have __________ that place an interest‑rate ceiling on lenders.',c:['Price‑ceiling laws','Usury laws','Price‑floor laws','Minimum interest rate'],a:1,e:'Usury laws cap the maximum legal interest rate on loans.'},
+/* 23 */{type:'mcq',q:'Which is a *final* good counted in GDP?',c:['Coffee beans Starbucks buys','A computer FedEx buys','Wheat a bakery buys','Lumber bought by a builder'],a:1,e:'Business investment in new equipment (FedEx’s computer) is a final use, included in GDP.'},
+/* 24 */{type:'mcq',q:'Which is counted in GDP?',c:['Tires Ford buys','A new tire you buy for your car','A used tire you buy','Used tires a dealer buys for resale'],a:1,e:'Household purchase of a *new* good is final expenditure.'},
+/* 25 */{type:'mcq',q:'Which is an *intermediate* good?',c:['Dough you buy for dinner','Chocolate you buy to eat','Lumber for a dog house','Pizza sauce you buy to make pizzas for sale'],a:3,e:'Inputs purchased for resale/processing (pizza sauce) are intermediate.'},
+/* 26 */{type:'mcq',q:'Which is *not* in 2016 GDP?',c:['2008 boat you buy in 2016','2016 fridge unsold in 2016','2016 realtor commissions','2016 salary of used‑bike salesperson'],a:0,e:'Resold used assets were already counted when produced in 2008.'},
+/* 27 */{type:'mcq',q:'Included in both U.S. GDP & GNP is',c:['Cars GM makes in the U.S.','Cars Ford makes in Mexico','Cars Nissan makes','Cars Toyota makes in U.S. only in GDP'],a:0,e:'Domestic production by a U.S. firm counts in both geographical (GDP) and ownership (GNP) measures.'},
+/* 28 */{type:'mcq',q:'Which is an intermediate good?',c:['Blueberries for home muffins','Tortillas for home burrito','Choc‑chips for cookies to sell','Lumber for a dog house'],a:2,e:'Inputs used to produce goods for sale (chips for bake‑sale cookies) are intermediate.'},
+/* 29 */{type:'mcq',q:'A firm makes 12 motorcycles in 2015, sells 8, adds 4 to inventory at $1,000 each. GDP includes',c:['$4,000','$8,000','$12,000','$16,000'],a:2,e:'GDP counts all *production* ($12k), whether sold or in inventory.'},
+/* 30 */{type:'mcq',q:'Nominal GDP in Year 1 (Good X: 60 @ $1; Good Y: 100 @ $0.80) is',c:['$140','$160','$180','$200'],a:0,e:'(60×1)+(100×0.8)=140.'},
+/* 31 */{type:'mcq',q:'Nominal GDP in Year 2 (80 @ $1; 110 @ $0.90) is',c:['$168','$179','$202','$214'],a:1,e:'(80×1)+(110×0.9)=179.'},
+/* 32 */{type:'mcq',q:'Real GDP Year 2 (base = Year 1 prices) is',c:['$168','$179','$202','$214'],a:0,e:'(80×1)+(110×0.8)=168.'},
+/* 33 */{type:'mcq',q:'GDP deflator Year 1 equals',c:['1','100','110','111'],a:1,e:'Nominal and real are equal in the base year; index =100.'},
+/* 34 */{type:'mcq',q:'GDP deflator Year 2 equals',c:['93.9','100','106.5','179'],a:2,e:'(179/168)×100 ≈106.5.'},
+/* 35 */{type:'mcq',q:'Inflation from Year 1 to 2 equals',c:['‑6.1 %','‑5.5 %','6.5 %','79 %'],a:2,e:'(106.5‑100)/100 =6.5 %.'},
+/* 36 */{type:'mcq',q:'GDP is not a perfect social‑welfare measure because',c:['Ignores income distribution','Omits non‑market activity','Doesn’t net out externalities','All of the above'],a:3,e:'All three limitations apply, so D.'},
+/* 37 */{type:'mcq',q:'In macroeconomics, the link from inputs to outputs is called',c:['A production function','An aggregate production function','Human capital','Physical capital'],a:1,e:'Aggregating across firms gives the aggregate production function.'},
+/* 38 */{type:'mcq',q:'Alpha no growth, Beta 5 % growth. After 14 yrs, Alpha’s GDP is about _____ of Beta’s.',c:['¼','½','Double','Triple'],a:1,e:'Rule‑of‑70: 5 % doubles in ~14 yrs; Alpha remains unchanged, so half.'},
+/* 39 */{type:'mcq',q:'An increase in human capital',c:['Decreases labour productivity','Increases labour productivity','Only helps with new tech','Raises capital‑labour ratio'],a:1,e:'Better skills & education raise output per worker.'},
+/* 40 */{type:'tf',q:'The income of U.S. citizens working abroad counts in U.S. GDP.',a:false,e:'GDP counts *domestic* production; that income is in GNP, not GDP.'},
+/* 41 */{type:'tf',q:'Stock‑market transactions are part of GNP.',a:false,e:'Financial exchanges transfer ownership of existing assets; they are not production.'},
+/* 42 */{type:'tf',q:'All used goods are considered nondurable goods.',a:false,e:'Durability refers to lifespan, not whether the item is new.'},
+/* 43 */{type:'tf',q:'Underground‑economy production is not reflected in GDP.',a:true,e:'Only officially recorded market activity enters national accounts.'},
+/* 44 */{type:'tf',q:'Points outside a PPF represent inefficiency.',a:false,e:'They are unattainable with current resources, not inefficient.'},
+/* 45 */{type:'tf',q:'A PPF is bowed out because some resources suit one good better than another.',a:true,e:'Increasing opportunity cost makes the frontier concave.'},
+/* 46 */{type:'tf',q:'A simultaneous rise in supply and demand for vitamin water raises equilibrium quantity.',a:true,e:'Both shifts push quantity the same direction.'},
+/* 47 */{type:'tf',q:'Excess demand results in a surplus.',a:false,e:'Excess demand means *shortage*; surplus comes from excess supply.'},
+/* 48 */{type:'tf',q:'U.S. labour productivity has risen over time.',a:true,e:'Historical data show sustained upward trends in output per worker‑hour.'},
+];
+
+/* ——— State ——— */
+const $=sel=>document.querySelector(sel);
+let mode=null,idx=0,score=0;
+
+/* ——— UI builders ——— */
+function home(){
+  $('#app').innerHTML=`
+    <div class="card">
+      <h1>Midterm Practice</h1>
+      <p>Select a study mode.</p>
+      <button onclick="startTest()">Practice Test</button>
+      <button onclick="startFlash()">Flashcards</button>
+    </div>`;
+}
+function startTest(){mode='test';idx=0;score=0;showQuestion();}
+function startFlash(){mode='flash';idx=0;showFlash();}
+function showQuestion(){
+  const q=questions[idx];
+  $('#app').innerHTML=`
+  <div class="card">
+    <h2>Question ${idx+1} of ${questions.filter(x=>x.type!=='flash').length}</h2>
+    <p>${q.q}</p>
+    ${q.type==='mcq'?q.c.map((t,i)=>`<label><input type="radio" name="opt" value="${i}"> ${t}</label>`).join(''):
+      ['True','False'].map((t,i)=>`<label><input type="radio" name="opt" value="${i}"> ${t}</label>`).join('')}
+    <button onclick="submit()">Submit</button>
+  </div>`;
+}
+function submit(){
+  const sel=document.querySelector('input[name="opt"]:checked');
+  if(!sel){alert('Choose an option');return;}
+  const q=questions[idx];
+  const correct=(q.type==='mcq'?+sel.value===q.a:(+sel.value===0)===q.a);
+  if(correct)score++;
+  $('#app').querySelector('.card').innerHTML+=`
+    <p><strong>${correct?'Correct 🎉':'Incorrect ❌'}</strong></p>
+    <p>${q.e}</p>
+    <button class="flat" onclick="next()">Next</button>`;
+}
+function next(){
+  idx++;
+  if(idx>=questions.length){result();return;}
+  showQuestion();
+}
+function result(){
+  $('#app').innerHTML=`<div class="card">
+    <h2>Finished!</h2>
+    <p>You answered <strong>${score}</strong> out of ${questions.length} correctly.</p>
+    <button onclick="home()">Back to Home</button>
+  </div>`;
+}
+function showFlash(){
+  const q=questions[idx];
+  $('#app').innerHTML=`<div class="card" id="flip" onclick="flip()">
+    <h2>${q.q}</h2>
+    <p style="opacity:.6">(tap to flip)</p>
+  </div>
+  <button class="flat" onclick="nextFlash()">Next</button>`;
+}
+function flip(){
+  const q=questions[idx];
+  const ans=q.type==='mcq'?(q.c[q.a]):(q.a?'True':'False');
+  $('#flip').innerHTML=`<h2>${ans}</h2><p>${q.e}</p>`;
+}
+function nextFlash(){
+  idx++;
+  if(idx>=questions.length){home();return;}
+  showFlash();
+}
+
+/* start */
+home();
+
+/* keyboard flip shortcut */
+document.addEventListener('keydown',e=>{if(mode==='flash'&&e.key==='f')flip();});
+</script>
+</body>
+</html>
